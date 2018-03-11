@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Markeri Auto Zubak</title>
+        <style>
+        #map {
+              width: 60% ;
+              height: 600px;
+              position: absolute;
+              top: 100px; left: 0px;
+            }
+        form {
+              margin: 100 auto;
+              width: auto;
+              position: absolute;
+              top: 100px; right: 0px;
+              padding: 1em;
+              border: 1px solid #CCC;
+              border-radius: 1em;
+              }
+
+        form div + div {
+              margin-top: 1em;
+              }
+
+        label {
+              display: inline-block;
+              width: auto;
+              text-align: right;
+              }
+
+        input, textarea {
+              font: 1em sans-serif;
+              width: auto;
+              box-sizing: border-box;
+              border: 1px solid #999;
+              }
+
+        input:focus, textarea:focus {
+              border-color: #000;
+              }
+
+        textarea {
+              vertical-align: top;
+              height: auto;
+              }
+
+        </style>
+    </head>
+    <body>
+        <h1>Google maps</h1>
+        <div id="map" style="width:70%;height:500px;"> </div>
+        <form action="/my-handling-form-page" method="post">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="user_name" />
+        </div>
+        <div>
+            <label for="mail">E-mail:</label>
+            <input type="email" id="mail" name="user_email" />
+      </div>
+      <div>
+        <label for="party">Time:</label>
+        <input id="party" type="datetime-local" name="partydate" value="2017-06-01T08:30">
+      </div>
+      <input type="submit" value="Send email" />
+        <script>
+            var markers = [];
+            var locations = [
+                            ['Marker 1', 45.783197, 15.926368],
+                            ['Marker 2', 45.822802, 16.030337],
+                            ['Marker 3', 45.793426, 16.048790],
+                            ];
+            var dateControl = document.querySelector('input[type="datetime-local"]');
+                              dateControl.value = '2017-12-03T08:30';
+
+
+            function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: {lat: 45.8150, lng: 15.9819}
+                });
+
+            setMarkers(map);
+     }
+
+     function setMarkers(map) {
+       for (var i = 0; i < locations.length; i++) {
+
+         var location = locations[0];
+         var locationInfowindow = new google.maps.InfoWindow({
+           content: '<button id="btn">Odaberi</button> <div id="firstDiv">Jarunska cesta 52</div>',
+         });
+
+
+         var marker = new google.maps.Marker({
+           position: {lat: location[1], lng: location[2]},
+           map: map,
+           title: location[0],
+           infowindow: locationInfowindow
+         });
+
+         markers.push(marker);
+
+         google.maps.event.addListener(marker, 'click', function(){
+           hideAllInfoWindows(map);
+           this.infowindow.open(map, this);
+           document.getElementById("btn").onclick=function(){
+           document.getElementById("firstDiv").innerHTML="Adresa: Jarunska cesta 52 <br/>Ime i prezime: Pero Perić<br/>Email: pero.peric@gmail.com <br/> "
+  };
+
+         });
+       }
+       for (var i = 0; i < locations.length; i++) {
+
+         var location = locations[1];
+         var locationInfowindow = new google.maps.InfoWindow({
+           content: '<button id="btn">Odaberi</button> <div id="firstDiv">Maksimirska cesta 100</div>',
+         });
+
+         var marker = new google.maps.Marker({
+           position: {lat: location[1], lng: location[2]},
+           map: map,
+           title: location[0],
+           infowindow: locationInfowindow
+         });
+
+         markers.push(marker);
+
+         google.maps.event.addListener(marker, 'click', function() {
+           hideAllInfoWindows(map);
+           this.infowindow.open(map, this);
+           document.getElementById("btn").onclick=function(){
+           document.getElementById("firstDiv").innerHTML="Adresa: Maksimirska cesta 100 <br/>Ime i prezime: Marino Marić<br/>Email: marino.maric@gmail.com <br/> "
+  };
+         });
+
+       }
+       for (var i = 0; i < locations.length; i++) {
+
+         var location = locations[2];
+         var locationInfowindow = new google.maps.InfoWindow({
+           content: '<button id="btn">Odaberi</button> <div id="firstDiv">Kanalski put 15</div>',
+         });
+
+         var marker = new google.maps.Marker({
+           position: {lat: location[1], lng: location[2]},
+           map: map,
+           title: location[0],
+           infowindow: locationInfowindow
+         });
+
+         markers.push(marker);
+
+         google.maps.event.addListener(marker, 'click', function() {
+           hideAllInfoWindows(map);
+           this.infowindow.open(map, this);
+           document.getElementById("btn").onclick=function(){
+           document.getElementById("firstDiv").innerHTML="Adresa: Kanalski put 15 <br/>Ime i prezime: Ante Anić<br/>Email: ante.anic@gmail.com <br/> "
+  };
+         });
+
+
+       }
+     }
+
+     function hideAllInfoWindows(map) {
+        markers.forEach(function(marker) {
+          marker.infowindow.close(map, marker);
+       });
+     }
+        </script>
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOfZgQk7kgxKrYJQplYwCi_rxS7siFvqE&callback=initMap">
+        </script>
+    </body>
+</html>
